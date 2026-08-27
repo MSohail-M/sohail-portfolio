@@ -16,7 +16,7 @@ export const FinalCTA = () => {
             Let's create something <span className="text-[#7c5cff] font-semibold">Amazing Together</span>. Transform your technical roadmap into high-performance reality.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <a href="#contact" className="btn-pill group" id="final-book-consultation">
+            <a href="/demo" className="btn-pill group" id="final-book-consultation">
               <span>Book Free Consultation</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </a>

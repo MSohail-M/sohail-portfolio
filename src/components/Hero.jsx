@@ -62,7 +62,7 @@ export const Hero = ({ smoothScroll }) => {
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3 mb-7">
-              <a href="#contact" className="btn-pill group" id="hero-book-consultation">
+              <a href="/demo" className="btn-pill group" id="hero-book-consultation">
                 <span>Book Free Consultation</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </a>

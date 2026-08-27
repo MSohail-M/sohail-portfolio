@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { MessageSquare, Menu, X, ArrowUpRight } from 'lucide-react';
 import { PERSONAL_INFO, SERVICE_LINKS } from '../lib/data.js';
 
-export const Header = ({ scrollY }) => {
+export const Header = ({ scrollY, homeHref = '' }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const isStuck = scrollY > 24;
 
+  /* homeHref is '' on the one-pager and '/' on /demo, so the same anchors
+     resolve from either document */
   const navItems = [
-    { label: 'Home', href: '#hero' },
-    { label: 'Services', href: '#services' },
-    { label: 'Process', href: '#process' },
-    { label: 'Work', href: '#work' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: `${homeHref}#hero` },
+    { label: 'Services', href: `${homeHref}#services` },
+    { label: 'Process', href: `${homeHref}#process` },
+    { label: 'Work', href: `${homeHref}#work` },
+    { label: 'Contact', href: `${homeHref}#contact` },
   ];
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export const Header = ({ scrollY }) => {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
         {/* Brand Lockup + service links */}
         <div className="flex items-center gap-3 lg:gap-4 min-w-0">
-          <a href="#hero" className="flex items-center group focus:outline-none flex-shrink-0" aria-label="Vocryn AI - Home">
+          <a href={`${homeHref}#hero`} className="flex items-center group focus:outline-none flex-shrink-0" aria-label="Vocryn AI - Home">
             <img
               src="/vocryn-logo.jpeg"
               alt="Vocryn AI"
@@ -69,7 +71,7 @@ export const Header = ({ scrollY }) => {
             {SERVICE_LINKS.map((service) => (
               <a
                 key={service.short}
-                href={service.href}
+                href={`${homeHref}${service.href}`}
                 title={service.label}
                 className="px-3 py-1.5 rounded-full text-[11.5px] font-bold uppercase tracking-[0.12em] text-[#d8d3f2] bg-[rgba(124,92,255,0.12)] border border-[rgba(124,92,255,0.3)] hover:text-[#f6f4ff] hover:bg-[rgba(124,92,255,0.26)] hover:border-[#7c5cff] hover:-translate-y-px transition-all duration-200 whitespace-nowrap"
               >
@@ -82,7 +84,7 @@ export const Header = ({ scrollY }) => {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1 bg-[rgba(246,244,255,0.03)] border border-[rgba(246,244,255,0.08)] rounded-full px-4 py-1.5 backdrop-blur-md">
           {navItems.map((item) => {
-            const isActive = activeSection === item.href.substring(1);
+            const isActive = item.href.endsWith(`#${activeSection}`) && !homeHref;
             return (
               <a
                 key={item.label}
@@ -130,7 +132,7 @@ export const Header = ({ scrollY }) => {
               {SERVICE_LINKS.map((service) => (
                 <a
                   key={service.short}
-                  href={service.href}
+                  href={`${homeHref}${service.href}`}
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-3.5 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-[0.1em] text-[#d8d3f2] bg-[rgba(124,92,255,0.12)] border border-[rgba(124,92,255,0.3)]"
                 >
@@ -151,7 +153,7 @@ export const Header = ({ scrollY }) => {
             ))}
           </div>
           <div className="flex flex-col gap-3 pt-6 pb-8 border-t border-[rgba(246,244,255,0.1)]">
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="btn-pill w-full !h-12 text-center">Book Free Consultation</a>
+            <a href="/demo" onClick={() => setMobileMenuOpen(false)} className="btn-pill w-full !h-12 text-center">Book Free Consultation</a>
           </div>
         </div>
       )}

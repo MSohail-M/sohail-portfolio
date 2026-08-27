@@ -48,7 +48,7 @@ export const App = () => {
 
       {/* Mobile Floating CTA Bar */}
       <div className="mobile-cta-bar">
-        <a href="#contact" className="w-full btn-pill !h-11 !text-[13px] !rounded-xl text-center">
+        <a href="/demo" className="w-full btn-pill !h-11 !text-[13px] !rounded-xl text-center">
           Book Consultation
         </a>
       </div>
