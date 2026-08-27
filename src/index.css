@@ -1,0 +1,350 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #070516;
+  --void-2: #0d0a22;
+  --ink: #f6f4ff;
+  --muted: #a09cc4;
+  --dim: #6f6a99;
+  --line: rgba(246, 244, 255, 0.10);
+  --violet: #7c5cff;
+  --violet-deep: #4b3bd6;
+  --violet-soft: rgba(124, 92, 255, 0.14);
+  --ember: #f7941e;
+  --ember-soft: rgba(247, 148, 30, 0.14);
+  --glass: rgba(246, 244, 255, 0.045);
+  --glass-line: rgba(246, 244, 255, 0.12);
+  --pill: #f6f4ff;
+  --pill-ink: #070516;
+
+  /* Responsive unit system */
+  --u: calc(100vh / 1024);
+  --uw: calc(100vw / 1512);
+  --h: clamp(var(--u), calc(var(--u) * 0.62 + var(--uw) * 0.38), calc(var(--u) * 1.18));
+  --mx: clamp(20px, 6.4vw, 92px);
+  --my: clamp(24px, 6.4vw, 92px);
+  --sp: clamp(20px, 6.4vw, 92px);
+  --gutter: clamp(20px, 6.4vw, 92px);
+  --nav-h: 88px;
+
+  /* Dynamic Published Variables */
+  --tilt: 0;
+  --depth: 0;
+  --scroll-y: 0;
+}
+
+/* Base Anti-flash & standard reset */
+html, body {
+  background-color: var(--void);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible focus styling */
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
+
+/* Banned: outline:none without replacement */
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
+  outline-color: var(--violet);
+}
+
+/* Stacking context */
+.z-canvas { z-index: 0; }
+.z-grain { z-index: 2; }
+.z-vignette { z-index: 3; }
+.z-veil { z-index: 4; }
+.z-main { z-index: 10; }
+.z-header { z-index: 60; }
+.z-menu { z-index: 80; }
+
+/* Custom Typography Classes */
+.font-display {
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+.type-h1-hero {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(38px, calc(96 * var(--h)), 104px);
+  line-height: 0.94;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.type-h1-inner {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(32px, calc(72 * var(--h)), 76px);
+  line-height: 0.96;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.type-h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(28px, calc(52 * var(--h)), 58px);
+  line-height: 1.02;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+
+.type-h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(20px, calc(23 * var(--h)), 26px);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.type-lead {
+  font-size: clamp(16px, calc(20.5 * var(--h)), 22px);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.type-body {
+  font-size: clamp(14px, calc(17 * var(--h)), 18px);
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.type-eyebrow {
+  font-size: clamp(11px, calc(12 * var(--h)), 13px);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--dim);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Accent spans: color:var(--violet) + drawn SVG underline - never gradient fill */
+.accent-span {
+  color: var(--violet);
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.accent-underline {
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 8px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.accent-underline path {
+  stroke: var(--violet);
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 0;
+}
+
+/* Button & Pill Styles */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--pill);
+  color: var(--pill-ink);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: clamp(14px, calc(15 * var(--h)), 16px);
+  border-radius: 9999px;
+  height: clamp(44px, calc(52 * var(--h)), 56px);
+  padding: 0 clamp(20px, 2.2vw, 32px);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 46px var(--violet-soft);
+  background-color: #ffffff;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--glass);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: clamp(14px, calc(15 * var(--h)), 16px);
+  border-radius: 9999px;
+  height: clamp(44px, calc(52 * var(--h)), 56px);
+  padding: 0 clamp(20px, 2.2vw, 32px);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(12px);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.22s ease;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 92, 255, 0.4);
+  background-color: rgba(246, 244, 255, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Glass Panels */
+.glass-panel {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(124, 92, 255, 0.35);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070516;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2350;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--violet);
+}
+
+/* Skip link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  background: var(--violet);
+  color: #ffffff;
+  padding: 12px 20px;
+  z-index: 100;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: top 0.2s ease;
+  text-decoration: none;
+}
+.skip-to-content:focus {
+  top: 20px;
+}
+
+/* Three tiers: Full WebGL -> html.no-gl CSS parallax -> reduced-motion static */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html.no-gl #canvas-container {
+  display: none !important;
+}
+
+html.no-gl .fallback-bg {
+  display: block !important;
+  background: radial-gradient(circle at 70% 30%, rgba(124, 92, 255, 0.12) 0%, transparent 60%),
+              radial-gradient(circle at 30% 70%, rgba(247, 148, 30, 0.08) 0%, transparent 60%),
+              #070516;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS FIXES
+   ============================================ */
+
+/* Prevent text overflow on small screens */
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* Hide horizontal scrollbar in work rail */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile-safe image containers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Better tap targets on mobile */
+@media (max-width: 640px) {
+  .btn-pill, .btn-ghost {
+    height: 48px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  /* Hero h1 extra mobile fix */
+  .type-h1-hero {
+    font-size: clamp(30px, 9.5vw, 56px);
+    line-height: 1.0;
+  }
+
+  .type-h2 {
+    font-size: clamp(24px, 7vw, 40px);
+  }
+
+  .type-lead {
+    font-size: clamp(14px, 4vw, 18px);
+  }
+}
+
+/* Floating Mobile CTA Bar (bottom) */
+.mobile-cta-bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-cta-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 10px 16px 14px;
+    gap: 10px;
+    background: rgba(5, 6, 10, 0.92);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(246, 244, 255, 0.10);
+  }
+
+  /* Add bottom padding to body so content isn't hidden behind bar */
+  body {
+    padding-bottom: 72px;
+  }
+}
+
