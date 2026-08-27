@@ -152,10 +152,6 @@ export const Header = ({ scrollY }) => {
           </div>
           <div className="flex flex-col gap-3 pt-6 pb-8 border-t border-[rgba(246,244,255,0.1)]">
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="btn-pill w-full !h-12 text-center">Book Free Consultation</a>
-            <a href={PERSONAL_INFO.whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost w-full !h-12 text-center flex items-center justify-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[#7c5cff]" />
-              <span>Chat on WhatsApp</span>
-            </a>
           </div>
         </div>
       )}

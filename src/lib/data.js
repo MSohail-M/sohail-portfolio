@@ -8,7 +8,6 @@ export const PERSONAL_INFO = {
   whatsappDisplay: "+1 571-703-4510",
   phoneTel: "tel:+15717034510",
   location: "Sterling, VA",
-  githubUrl: "https://github.com/MSohail-M",
   stats: [
     { value: "50+", label: "Projects Delivered" },
     { value: "98%", label: "Client Satisfaction" },
