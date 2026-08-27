@@ -15,6 +15,7 @@ export const Header = ({ scrollY, homeHref = '' }) => {
     { label: 'Process', href: `${homeHref}#process` },
     { label: 'Work', href: `${homeHref}#work` },
     { label: 'Contact', href: `${homeHref}#contact` },
+    { label: 'Book a Call', href: '/demo', page: true },
   ];
 
   useEffect(() => {
@@ -84,7 +85,9 @@ export const Header = ({ scrollY, homeHref = '' }) => {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1 bg-[rgba(246,244,255,0.03)] border border-[rgba(246,244,255,0.08)] rounded-full px-4 py-1.5 backdrop-blur-md">
           {navItems.map((item) => {
-            const isActive = item.href.endsWith(`#${activeSection}`) && !homeHref;
+            const isActive = item.page
+              ? typeof window !== 'undefined' && window.location.pathname === item.href
+              : item.href.endsWith(`#${activeSection}`) && !homeHref;
             return (
               <a
                 key={item.label}
