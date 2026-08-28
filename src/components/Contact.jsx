@@ -3,13 +3,15 @@ import { Mail, MessageSquare, Clock, CheckCircle2, Send, AlertCircle, MapPin } f
 import { PERSONAL_INFO, SERVICES } from '../lib/data.js';
 
 export const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', category: '', message: '' });
+  const EMPTY = { name: '', email: '', category: '', message: '', botcheck: '' };
+  const [formData, setFormData] = useState(EMPTY);
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  /* Never claim a brief landed when it did not — /api/contact returns 200 only
+     once the enquiry is in Airtable or has been emailed out. */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('submitting');
     setErrorMessage('');
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
@@ -18,14 +20,31 @@ export const Contact = () => {
       return;
     }
 
+    setStatus('submitting');
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 900));
-      setStatus('success');
-      setFormData({ name: '', email: '', category: '', message: '' });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const out = await res.json().catch(() => ({}));
+
+      if (res.ok && out.ok) {
+        setStatus('success');
+        setFormData(EMPTY);
+      } else {
+        setStatus('error');
+        setErrorMessage(
+          `That did not send. Email ${PERSONAL_INFO.email} directly and I will pick it up from there.`
+        );
+      }
     } catch (err) {
       console.error(err);
       setStatus('error');
-      setErrorMessage('Server returned an invalid response. Please try again.');
+      setErrorMessage(
+        `That did not send — check your connection, or email ${PERSONAL_INFO.email} directly.`
+      );
     }
   };
 
@@ -108,6 +127,18 @@ export const Contact = () => {
                       <span>{errorMessage || 'Server returned an invalid response. Please try again.'}</span>
                     </div>
                   )}
+
+                  {/* Honeypot — hidden from people and screen readers, catnip for bots. */}
+                  <input
+                    type="text"
+                    name="botcheck"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    value={formData.botcheck}
+                    onChange={(e) => setFormData({ ...formData, botcheck: e.target.value })}
+                    className="hidden"
+                  />
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-2">
